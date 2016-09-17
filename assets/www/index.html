@@ -1,155 +1,42 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
 <html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="./lib/jquery.mobile-1.4.0.min.css" />
-  <script src="./lib/jquery-1.9.1.min.js"></script>
-  <script src="./lib/jquery.mobile-1.4.0.min.js"></script>
-  <link rel="stylesheet" href="./main.css" />
-</head>
-<body><div id="wrapper">
-  <p><span id="total-score">0</span>&nbsp;/&nbsp;<span id="quiz-count">0</span>問中</p>
-  <p><span id="msg">ようこそ、こんにちは！</span></p>
-  <p id="answer"><input type="text" disabled="disabled" value="伊藤" /></p>
-  <div id="content">
-    <p id="quiz-top-wrapper"><span id="quiz-top">鈴木</span><span>未満</span></p>
-    <p id="quiz-bottom-wrapper"><span id="quiz-bottom">山田</span><span>以上</span></p>
-  </div>
-  <div>
-    <p id="balance-img"><img src="./img/balance.png""/></p>
-    <button id="start-btn">ゲームをはじめる</button>
-    <a href="howto.html" data-transition="slideup"><button id="howto-btn">遊び方</button></a>
-  </div>
-
-<script type="text/javascript" src="./constant.js"></script>
-<script type="text/javascript" src="./lib/mylib.js"></script>
-<script type="text/javascript">
-/*
-$(document).ready(function(){
-$(document).addEventListener(
-  "menubutton",
-//  function() { $('#howto-btn').click(); },
-  test,
-  false);
-});
-function test() {
-alert('test');
-}
-*/
-</script>
-<script type="text/javascript">
-//var data_names;
-var total_names;
-var name_index_top;
-var name_index_bottom;
-var total_score = 0;
-var timer_id;
-var quiz_count = 0;
-var max_quiz_count = 6;
-var limit_time = 15;
-var playing_flag = false;
-var keydown_code = 0;
-init();
-function init() {
-  total_names = data_names.length;
-}
-$('#answer').keydown(function(e) {
-  keydown_code = e.which;
-});
-$('#answer input').keyup(function(e) {
-  if (13 == e.which && e.which == keydown_code && playing_flag) {
-    chkAns();
-    this.value = '';
-    return false;
-}});
-$('#start-btn').click(function(e) {
-  if (playing_flag) {
-    exitQuiz();
-  }else {
-    //$('#answer input').focus().tap();
-    startQuiz();
-  }
-  //this.blur();
-  return false;
-});
-$('#howto-btn').click(function(e) {
-  //setTimeout('exitQuiz()', 100);
-  exitQuiz();
-  return true;
-});
-function startQuiz() {
-  playing_flag = true;
-  total_score = 0;
-  $('#total-score').html('0');
-  $('#quiz-count').html('0');
-  $('#msg').html('カウントダウンなう・・・');
-  $('#start-btn').html('ゲームをやめる');
-  $('#answer input').textinput('enable');
-  $('#answer input').val('');
-  setQuiz();
-}
-function exitQuiz() {
-  quiz_count = 0;
-  playing_flag = false;
-  total_score = 0;
-  clearTimeout(timer_id);
-  $('#msg').html('もう一回やろうよっっ！ね？ね？');
-  $('#answer input').textinput('disable');
-  $('#start-btn').html('ゲームをはじめる');
-}
-function setQuiz() {
-  var name_index_start;
-  var name_index_end;
-  var name_indices = Array(2);
- 
-  if (quiz_count == 0) {
-    name_index_start = 0;
-    name_index_end = 20;
-  }else if (quiz_count == 1) {
-    name_index_start = 0;
-    name_index_end = 100;
-  }else if (quiz_count == 2) {
-    name_index_start = 101;
-    name_index_end = 1000;
-  }else if (quiz_count == 3) {
-    name_index_start = 1001;
-    name_index_end = 3000;
-  }else if (quiz_count == 4) {
-    name_index_start = 3001;
-    name_index_end = 6000;
-  }else if (quiz_count == 5) {
-    name_index_start = 6001;
-    name_index_end = total_names-1;
-  }
-  name_indices[0] = getRand(name_index_start, name_index_end);
-  name_indices[1] = getRand(name_index_start, name_index_end);
-  name_index_top = Math.min.apply(null, name_indices);
-  name_index_bottom = Math.max.apply(null, name_indices);
-  if (name_index_bottom - name_index_top < 2) name_index_bottom = name_index_top + 2;
-  $('#quiz-top').html(data_names[name_index_top]).hide().fadeIn('pop');
-  $('#quiz-bottom').html(data_names[name_index_bottom]).hide().fadeIn('pop');
-  timer_id = setTimeout('chkAns()', limit_time*1000);
-  quiz_count = quiz_count + 1;
-}
-function chkAns() {
-  var ans = $('#answer input').val();
-  var white_list = data_names.slice(name_index_top+1, name_index_bottom);
-  if (white_list.indexOf(ans) >= 0) {
-    var score = 1;
-    $('#msg').html('セィィイイカイイィィッッッ！！');
-    total_score = total_score + score;
-    $('#total-score').html(total_score).hide().fadeIn();
-  }else {
-    $('#msg').html('チガウヨー');
-  }
-  $('#quiz-count').html(quiz_count);
-  clearTimeout(timer_id);
-  if (quiz_count < max_quiz_count) {
-    setQuiz();
-  }else {
-    exitQuiz();
-  }
-};
-</script>
-
-</div></body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova-2.6.0.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
 </html>
