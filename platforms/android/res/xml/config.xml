@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="jp.gr.java_conf.suhirotaka.fmlnamegame" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>鈴木と山田のあいだ</name>
+    <description>
+        人口の数が、2つの名字の間に入る名字を答えるだけのかんたんゲームです。
+    </description>
+    <author email="ejanno@gmail.com" href="https://github.com/suhirotaka/android-name-game">
+        Hirotaka Suzuki
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <icon src="platforms/android/res/drawable/icon.png" />
+    <allow-intent href="market:*" />
+    <icon density="ldpi" src="platforms/android/res/drawable-ldpi/icon.png" />
+    <icon density="mdpi" src="platforms/android/res/drawable-mdpi/icon.png" />
+    <icon density="hdpi" src="platforms/android/res/drawable-hdpi/icon.png" />
+    <icon density="xhdpi" src="platforms/android/res/drawable-xhdpi/icon.png" />
+    <preference name="loglevel" value="DEBUG" />
+</widget>
