@@ -9,10 +9,11 @@
 <body><div id="wrapper">
   <p><span id="total-score">0</span>&nbsp;/&nbsp;<span id="quiz-count">0</span>問中</p>
   <p><span id="msg">ようこそ、こんにちは！</span></p>
+  <p><span id="countdown-timer">&nbsp;</span></p>
   <p id="answer"><input type="text" disabled="disabled" value="伊藤" /></p>
   <div id="content">
-    <p id="quiz-top-wrapper"><span id="quiz-top">鈴木</span><span>未満</span></p>
-    <p id="quiz-bottom-wrapper"><span id="quiz-bottom">山田</span><span>以上</span></p>
+    <p id="quiz-top-wrapper"><span id="quiz-top">鈴木</span><span>より少なく</span></p>
+    <p id="quiz-bottom-wrapper"><span id="quiz-bottom">山田</span><span>より多い</span></p>
   </div>
   <div>
     <p id="balance-img"><img src="./img/balance.png""/></p>
@@ -45,7 +46,7 @@ var total_score = 0;
 var timer_id;
 var quiz_count = 0;
 var max_quiz_count = 6;
-var limit_time = 15;
+var limit_time = 30;
 var playing_flag = false;
 var keydown_code = 0;
 init();
@@ -127,8 +128,19 @@ function setQuiz() {
   if (name_index_bottom - name_index_top < 2) name_index_bottom = name_index_top + 2;
   $('#quiz-top').html(data_names[name_index_top]).hide().fadeIn('pop');
   $('#quiz-bottom').html(data_names[name_index_bottom]).hide().fadeIn('pop');
-  timer_id = setTimeout('chkAns()', limit_time*1000);
+  startCountDown();
   quiz_count = quiz_count + 1;
+}
+function startCountDown() {
+  var current_count = limit_time;
+  $('#countdown-timer').html(current_count);
+  timer_id = setInterval(function() {
+    current_count = current_count - 1;
+    if (current_count == 0) {
+      chkAns();
+    }
+    $('#countdown-timer').html(current_count);
+  }, 1000);
 }
 function chkAns() {
   var ans = $('#answer input').val();
