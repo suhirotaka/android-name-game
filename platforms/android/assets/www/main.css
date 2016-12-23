@@ -39,10 +39,15 @@ a {
 }
 #answer input {
   text-align:center;
+  font-size: 120%;
   font-weight:bold;
 }
 #msg {
+  font-size: 120%;
   margin-left:10px;
+}
+#countdown-timer {
+  font-size: 120%;
 }
 #balance-img {
 }
